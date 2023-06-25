@@ -1,0 +1,54 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    meta.helm.sh/release-name: kyverno-rules
+    meta.helm.sh/release-namespace: kyverno
+    pod-policies.kyverno.io/autogen-controllers: Deployment,StatefulSet
+    policies.kyverno.io/category: Sample
+    policies.kyverno.io/description: Using the Cosign project, OCI images may be signed
+      to ensure supply chain security is maintained. Those signatures can be verified
+      before pulling into a cluster. This policy checks the signature of an image
+      repo called ghcr.io/kyverno/test-verify-image to ensure it has been signed by
+      verifying its signature against the provided public key. This policy serves
+      as an illustration for how to configure a similar rule and will require replacing
+      with your image(s) and keys.
+    policies.kyverno.io/minversion: 1.4.2
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Deployment, StatfulSet
+    policies.kyverno.io/title: Verify Image
+  name: verify-image
+spec:
+  background: false
+  failurePolicy: Fail
+  rules:
+  - exclude:
+      any:
+      - resources:
+          namespaces:
+          - kube-system
+          - kube-node-lease
+          - kube-public
+      resources: {}
+    generate:
+      clone: {}
+    match:
+      any:
+      - resources:
+          kinds:
+          - Deployment
+          - StatefulSet
+      resources: {}
+    mutate: {}
+    name: verify-image
+    validate: {}
+    verifyImages:
+    - image: registry.domain.com*
+      key: |-
+        -----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE0+VemMIOj5qCy9QeN9sry+a8lObl
+        FPi9x3e5bZHSRoqCRw2wVqNfNSzJUqkgRe+6XB21N1LyvXkWcarEjppvvA==
+        -----END PUBLIC KEY-----
+      mutateDigest: false
+      required: true
+      verifyDigest: false
+  validationFailureAction: enforce
