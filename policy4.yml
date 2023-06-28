@@ -1,0 +1,52 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: check-image-signature
+  annotations: 
+    policies.kyverno.io/title: Check Image Signature
+    policies.kyverno.io/category: ImageSignature
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/minversion: 1.7.0
+    policies.kyverno.io/description: >-
+      Using the Cosign project, OCI images may be signed to ensure supply chain
+      security is maintained. Those signatures can be verified before pulling into
+      a cluster. This policy checks the signature of an image repo called
+      ghcr.io/kyverno/test-verify-image to ensure it has been signed by verifying
+      its signature against the provided public key. This policy serves as an illustration for
+      how to configure a similar rule and will require replacing with your image(s) and keys.
+spec:
+  webhookTimeoutSeconds: 15
+  validationFailureAction: audit
+  background: false
+  rules:
+    - name: verify-image-signature
+      match:
+        resources: {}
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - "cool-namespace"
+      verifyImages:
+        - imageReferences:
+          - "*"
+          mutateDigest: true
+          required: true
+          verifyDigest: true
+          attestors:
+            - entries:
+                - keys:
+                    publicKeys: |
+                      -----BEGIN PUBLIC KEY-----
+                      ...
+                      -----END PUBLIC KEY-----
+      # BC: https://github.com/kyverno/kyverno/issues/5738
+      mutate: {}
+      validate: {}
+      exclude:
+        resources: {}
+      generate:
+        clone: {}
+        cloneList: {}

@@ -1,9 +1,10 @@
+# verfied image
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
   labels:
     app: nginx
+  name: nginx-deployment
 spec:
   replicas: 1
   selector:
@@ -14,10 +15,7 @@ spec:
       labels:
         app: nginx
     spec:
-      imagePullSecrets:
-      - name: regcred
       containers:
-      - name: nginx
-        image: ghcr.io/hackeramitkumar/test5:app2 # NEW VERSION of image
-        ports:
-        - containerPort: 80
+      - image: ghcr.io/hackeramitkumar/test5:app2
+        name: nginx
+        resources: {}

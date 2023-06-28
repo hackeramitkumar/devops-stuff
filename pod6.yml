@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx-deployment-6
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: ghcr.io/hackeramitkumar/test6:app
+        name: bad-container
+        resources: {}
+      - image: ghcr.io/hackeramitkumar/test5:app
+        name: good-container
+        resources: {}
