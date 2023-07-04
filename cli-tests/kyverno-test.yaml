@@ -1,6 +1,6 @@
 name: test-image-verify-signature
 policies:
-  - policy.yaml
+  - policy.yml
 resources:
   - resources.yaml
 results:
