@@ -13,6 +13,7 @@ spec:
         any:
         - resources:
             kinds:
+              - Deployment
               - Pod
       verifyImages:
       - imageReferences:

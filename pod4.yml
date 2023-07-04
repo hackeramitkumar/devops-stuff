@@ -5,9 +5,9 @@ metadata:
   namespace: default
 spec:
   containers:
-    - image: ghcr.io/hackeramitkumar/test5:app
+    - image: ghcr.io/hackeramitkumar/test5:app2
       name: good-container
       imagePullPolicy: Always
-    - image: ghcr.io/hackeramitkumar/test6:app
-      name: bad-container
-      imagePullPolicy: Always
+    # - image: ghcr.io/hackeramitkumar/test6:app
+    #   name: bad-container
+    #   imagePullPolicy: Always

@@ -1,5 +1,0 @@
-policies:
-- name: check-image
-  resources:
-  # - name: pod-3
-    - name: pod-4
