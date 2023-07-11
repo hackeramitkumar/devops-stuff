@@ -1,4 +1,3 @@
-#verified
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +15,6 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: ghcr.io/hackeramitkumar/test5:app
+      - image: ghcr.io/hackeramitkumar/test5:app2
         name: nginx
         resources: {}

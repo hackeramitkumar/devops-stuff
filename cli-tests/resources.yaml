@@ -7,7 +7,7 @@ spec:
     - name: signed
       image: ghcr.io/hackeramitkumar/test5:app
     - name: unsigned
-      image: ghcr.io/hackeramitkumar/test5:app2
+      image: ghcr.io/hackeramitkumar/test6:app
 ---
 apiVersion: v1
 kind: Pod
